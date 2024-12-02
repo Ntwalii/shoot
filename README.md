@@ -1,2 +1,2 @@
 # shoot
-Lightweight live chat app - 
+Lightweight live chat app
