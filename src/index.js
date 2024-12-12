@@ -5,10 +5,11 @@ const form = document.getElementById("form");
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  const input = document.getElementById("input");
-  socket.emit("send", input.value);
-  displayMessage(input.value, "sender");
-  input.value = "";
+  const messageInput = document.getElementById("input");
+  const roleInput = document.getElementById("role");
+  socket.emit("send", messageInput.value, roleInput.value);
+  displayMessage(messageInput.value, "sender");
+  messageInput.value = "";
 });
 
 const displayMessage = (message, userRole) => {

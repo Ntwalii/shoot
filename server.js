@@ -5,7 +5,11 @@ const io = require("socket.io")(8080, {
 });
 
 io.on("connection", (socket) => {
-  socket.on("send", (message) => {
-    socket.broadcast.emit("receive", message);
+  socket.on("send", (message, room) => {
+    if ((room = "")) {
+      socket.broadcast.emit("receive", message);
+    } else {
+      socket.to(room).emit("receive", message);
+    }
   });
 });
