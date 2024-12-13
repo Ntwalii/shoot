@@ -2,13 +2,24 @@ const socket = io("http://localhost:8080");
 
 const div = document.getElementById("textsDiv");
 const form = document.getElementById("form");
-
-form.addEventListener("submit", (e) => {
+const joinRoomButton = document.getElementById("joinRoom");
+const messageInput = document.getElementById("input");
+const roleInput = document.getElementById("role");
+const sendButton = document.getElementById("send");
+sendButton.addEventListener("click", (e) => {
   e.preventDefault();
-  const input = document.getElementById("input");
-  socket.emit("send", input.value);
-  displayMessage(input.value, "sender");
-  input.value = "";
+  console.log("We here");
+  socket.emit("send", messageInput.value, roleInput.value);
+  displayMessage(messageInput.value, "sender");
+  messageInput.value = "";
+  roleInput.value = "";
+});
+
+joinRoomButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  console.log("Before joining room, Socket ID:", socket.id);
+  socket.emit("join-room", roleInput.value);
+  console.log("After joining room, Socket ID:", socket.id);
 });
 
 const displayMessage = (message, userRole) => {
@@ -25,4 +36,7 @@ const displayMessage = (message, userRole) => {
 };
 socket.on("receive", (message) => {
   displayMessage(message, "receiver");
+});
+socket.on("send-id", (id) => {
+  console.log(id);
 });
